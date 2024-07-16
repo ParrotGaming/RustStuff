@@ -35,25 +35,28 @@ fn main() {
     }
 
     while dst.len() > 1 {
-        dst[0] = merge(dst[0].clone(), dst[1].clone());
-        dst.remove(1);
+        for i in 0..dst.len()/2 {
+            dst[i] = merge(&dst[i], &dst[i+1]);
+            dst.remove(i+1);
+        }
     }
+
     data_set = dst[0].clone();
 
-    for i in 0..data_set.len() {
-        print!("{} ", data_set[i]);
+    for i in data_set {
+        print!("{} ", i);
     }
 }
 
 fn gen_numbers(num: i32) -> Vec<i32>{
     let mut tmp_vec: Vec<i32> = Vec::new();
     for _i in 1..num {
-        tmp_vec.push(rand::thread_rng().gen_range(0..num));
+        tmp_vec.push(rand::thread_rng().gen_range(0..10000));
     }
     return  tmp_vec;
 }
 
-fn merge(x: Vec<i32>, y: Vec<i32>) -> Vec<i32> {
+fn merge(x: &Vec<i32>, y: &Vec<i32>) -> Vec<i32> {
     let mut small_x: i32 = 0;
     let mut small_y: i32 = 0;
 
