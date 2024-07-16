@@ -1,7 +1,7 @@
 use rand::Rng;
 
 fn main() {
-    let mut data_set: Vec<i32> = gen_numbers(100000);
+    let mut data_set: Vec<i32> = gen_numbers(1000000);
     
     //Bubble Sort Implementation
     
@@ -10,7 +10,7 @@ fn main() {
     //     let mut prev: i32 = data_set[0];
     //     swapped = false;
     //     for i in 0..data_set.len() {
-    //         let n: i32 = data_set[i];
+    //         let n: i32 = data_set[i];10000
     //         if n < prev {
     //             let tmp: i32 = data_set[usize::try_from(i).unwrap()];
     //             data_set[usize::try_from(i).unwrap()] = data_set[usize::try_from(i).unwrap()-1];
@@ -35,12 +35,19 @@ fn main() {
     }
 
     while dst.len() > 1 {
-        for i in 0..dst.len()/2 {
-            dst[i] = merge(&dst[i], &dst[i+1]);
-            dst.remove(i+1);
+        let mut dst2: Vec<Vec<i32>> = Vec::new();
+        let mut i: usize = 0;
+        while i < dst.len() {
+            if i+2 > dst.len() {
+                dst2.push(merge(&dst[i], &Vec::new()));
+                break;
+            } else {
+                dst2.push(merge(&dst[i], &dst[i+1]));
+                i+=2;
+            }
         }
+        dst = dst2;
     }
-
     data_set = dst[0].clone();
 
     for i in data_set {
@@ -50,32 +57,32 @@ fn main() {
 
 fn gen_numbers(num: i32) -> Vec<i32>{
     let mut tmp_vec: Vec<i32> = Vec::new();
-    for _i in 1..num {
+    for _i in 0..num {
         tmp_vec.push(rand::thread_rng().gen_range(0..10000));
     }
     return  tmp_vec;
 }
 
 fn merge(x: &Vec<i32>, y: &Vec<i32>) -> Vec<i32> {
-    let mut small_x: i32 = 0;
-    let mut small_y: i32 = 0;
+    let mut small_x: usize = 0;
+    let mut small_y: usize = 0;
 
     let mut merged: Vec<i32> = Vec::new();
 
     for i in 0..(x.len() + y.len()) {
-        if small_x < i32::try_from(x.len()).unwrap() && small_y < i32::try_from(y.len()).unwrap() {
-            if x[usize::try_from(small_x).unwrap()] < y[usize::try_from(small_y).unwrap()] {
-                merged.insert(i, x[usize::try_from(small_x).unwrap()]);
+        if small_x < x.len() && small_y < y.len() {
+            if x[small_x] < y[small_y] {
+                merged.insert(i, x[small_x]);
                 small_x +=1;
             } else {
-                merged.insert(i, y[usize::try_from(small_y).unwrap()]);
+                merged.insert(i, y[small_y]);
                 small_y +=1;
             }
-        } else if small_x < i32::try_from(x.len()).unwrap() {
-            merged.insert(i, x[usize::try_from(small_x).unwrap()]);
+        } else if small_x < x.len() {
+            merged.insert(i, x[small_x]);
             small_x +=1;
         } else {
-            merged.insert(i, y[usize::try_from(small_y).unwrap()]);
+            merged.insert(i, y[small_y]);
             small_y += 1;
         }
     }
