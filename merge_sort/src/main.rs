@@ -10,7 +10,7 @@ fn main() {
     //     let mut prev: i32 = data_set[0];
     //     swapped = false;
     //     for i in 0..data_set.len() {
-    //         let n: i32 = data_set[i];10000
+    //         let n: i32 = data_set[i];
     //         if n < prev {
     //             let tmp: i32 = data_set[usize::try_from(i).unwrap()];
     //             data_set[usize::try_from(i).unwrap()] = data_set[usize::try_from(i).unwrap()-1];
